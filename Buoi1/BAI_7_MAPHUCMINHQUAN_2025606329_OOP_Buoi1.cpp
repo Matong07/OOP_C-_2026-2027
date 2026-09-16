@@ -28,6 +28,7 @@ class Canbo {
     cin >> date.year;
     cout << "So ngay lam trong thang: ";
     cin >> Days;
+    cin.ignore();
   }
   long long Tinhluong() {
     Luong = Days * 250000;
