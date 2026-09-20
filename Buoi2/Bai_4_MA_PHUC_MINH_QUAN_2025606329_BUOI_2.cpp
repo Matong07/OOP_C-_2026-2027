@@ -6,6 +6,7 @@ class Goods {
   string itemName, itemCode;
   long itemPrice;
   friend class Shoppingvoucher;
+  friend class Dataprocessing;
 };
 class Date {
  private:
@@ -18,6 +19,7 @@ class Shoppingvoucher {
   int n;
   Date a;
   Goods* b;
+  friend class Dataprocessing;
 
  public:
   void Input() {
@@ -82,16 +84,72 @@ class Shoppingvoucher {
       Tongquantity += b[i].quantity;
     }
 
-    cout << left << "TONG" << right << Tongquantity << setw(10) << Tong << endl;
+    cout << left << "TONG    " << right << Tongquantity << setw(10) << Tong
+         << endl;
 
     cout << setw(10) << "Giam doc" << setw(40) << "Phong tai chinh" << setw(40)
          << "Nguoi lap phieu" << endl;
+  }
+  friend void setcustomerName(Shoppingvoucher& x);
+};
+void setcustomerName(Shoppingvoucher& x) { x.customerName = "Le Van Hoang "; }
+
+class Dataprocessing {
+  friend class Shoppingvoucher;
+
+ public:
+  int Than15(Shoppingvoucher& x) {
+    int dem = 0;
+    for (int i = 0; i < x.n; i++) {
+      if (x.b[i].quantity > 15) {
+        dem++;
+      }
+    }
+    return dem;
+  }
+  void Arrange(Shoppingvoucher& x) {
+    for (int i = 0; i < x.n; i++) {
+      for (int j = i + 1; j < x.n; j++) {
+        if (x.b[i].quantity < x.b[j].quantity) {
+          swap(x.b[i], x.b[j]);
+        }
+      }
+    }
+  }
+  void Lagest(Shoppingvoucher& x) {
+    int vt = 0;
+    for (int i = 1; i < x.n; i++) {
+      if (x.b[i].quantity > x.b[vt].quantity) {
+        vt = i;
+      }
+    }
+    cout << "Mat hang co so luong lon nhat: " << endl;
+    cout << "Ma Hang: " << x.b[vt].itemCode << endl;
+  }
+  void SetquanlityitemBimBim(Shoppingvoucher& x) {
+    for (int i = 0; i < x.n; i++) {
+      if (x.b[i].itemName == "Bim Bim") {
+        x.b[i].quantity = 120;
+      }
+    }
   }
 };
 
 int main() {
   Shoppingvoucher x;
+  Dataprocessing z;
   x.Input();
   x.Output();
-  return 0;
+  cout << "So luong mat hang co so luong lon hon 15 la: " << z.Than15(x)
+       << endl;
+  z.Lagest(x);
+  z.Arrange(x);
+  cout << "\t\t\t Sau khi sap xep" << endl;
+  x.Output();
+  setcustomerName(x);
+  cout << "Da doi ten khach hang: " << endl;
+  x.Output();
+  z.SetquanlityitemBimBim(x);
+  cout << endl;
+  x.Output();
 }
