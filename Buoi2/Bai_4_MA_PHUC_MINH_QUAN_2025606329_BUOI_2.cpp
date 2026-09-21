@@ -151,5 +151,4 @@ int main() {
   x.Output();
   z.SetquanlityitemBimBim(x);
   cout << endl;
-  x.Output();
 }
